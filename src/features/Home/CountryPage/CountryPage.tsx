@@ -44,7 +44,7 @@ type CountryPageProps = {
 export default function CountryPage({ isDark }: CountryPageProps) {
   const { country } = useParams();
   const navigate = useNavigate();
-  const { data, isLoading, error, isFetching } = useQuery<CountryData[]>({
+  const { data, isLoading, error } = useQuery<CountryData[]>({
     queryKey: ["country", country],
     queryFn: async () => {
       const response = await fetch(
@@ -55,8 +55,8 @@ export default function CountryPage({ isDark }: CountryPageProps) {
     },
   });
 
-  if (isFetching) return "";
   if (isLoading) return <div>Loading...</div>;
+
   if (error || !data || data.length === 0) return <NotFound />;
 
   const countryData = data[0];
@@ -128,7 +128,7 @@ export default function CountryPage({ isDark }: CountryPageProps) {
                 </CountryInfoValueSpan>
               </CountrySingleInfoLine>
               <CountrySingleInfoLine>
-                Languages:{" "}
+                Languages:
                 <CountryInfoValueSpan>
                   {countryData.languages
                     ? Object.values(countryData.languages).join(", ")
